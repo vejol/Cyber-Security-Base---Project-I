@@ -2,18 +2,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>Bank Transfer</title>
+        <style>
+            table {
+              font-family: arial, sans-serif;
+              border-collapse: collapse;
+              width: 100%;
+            }
+            
+            td, th {
+              border: 1px solid #dddddd;
+              text-align: left;
+              padding: 8px;
+            }
+            
+            tr:nth-child(even) {
+              background-color: #dddddd;
+            }
+            </style>
     </head>
 
 
     <body>
 		<h1>Your account</h1>
 
-        <table>
-		<tr>
-		<th style="text-align:left">Username: <td>{{user.username}} 
-		<tr>
-		<th style="text-align:left">Balance:  <td>{{user.account.balance}}
-		</table>
+		<span><b>Username: </b>{{user.username}} </span><br>
+		<span><b>Balance: </b>{{user.account.balance}}</span><br>
 
 
         <form action='logout/' method="POST">
@@ -23,7 +36,7 @@
 		
         <h2>Transfer money</h2>
 
-        <form action='transfer/' method="GET">
+        <form action='transfer/' method="GET" id="transfer">
             <span>To:</span><br/>
             <select name="to">
 			{% for account in accounts %}
@@ -34,8 +47,32 @@
             <span>Amount:</span><br/>
             <input type="number" name="amount"/><br/>
 
+            <span>Message:</span><br>
+            <textarea name="message" id="transfer" cols="30" rows="3"></textarea><br>
+
             <input type="submit" value="Transfer"/>
         </form>
+
+        <h2>Transactions list</h2>
+        <table>
+            <tr>
+                <th>Amount</th>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Message</th>
+            </tr>
+            {% for event in events %}
+            <tr>
+                <td>{{event.amount}}</td>
+                <td>{{event.sender}}</td>
+                <td>{{event.receiver}}</td>
+                <td>{{event.message|safe}}</td> 
+                <!--FIX - Replace line abow with this: <td>{{event.message}}</td> -->
+            </tr>
+            {% endfor %}
+        </table>
+        
+
     </body>
 
 
