@@ -2,23 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>Bank Transfer</title>
-        <style>
-            table {
-              font-family: arial, sans-serif;
-              border-collapse: collapse;
-              width: 100%;
-            }
-            
-            td, th {
-              border: 1px solid #dddddd;
-              text-align: left;
-              padding: 8px;
-            }
-            
-            tr:nth-child(even) {
-              background-color: #dddddd;
-            }
-            </style>
     </head>
 
 
@@ -30,13 +13,19 @@
 
 
         <form action='logout/' method="POST">
-			{% csrf_token %}
+
             <input type="submit" value="Logout"/>
         </form>
 		
         <h2>Transfer money</h2>
 
         <form action='transfer/' method="GET" id="transfer">
+
+        <!-- FIX 3 - Change line above to use POST method and add csrf protection.
+            The correct two lines are:
+        <form action='transfer/' method="POST" id="transfer">
+            {% csrf_token %} -->
+            
             <span>To:</span><br/>
             <select name="to">
 			{% for account in accounts %}
@@ -51,30 +40,21 @@
             <textarea name="message" id="transfer" cols="30" rows="3"></textarea><br>
 
             <input type="submit" value="Transfer"/>
+        </form><br>
+
+        <form action="transactions/{{user.username}}" method="GET">
+            <input type="submit" value="Check your transaction history">
+        </form><br>
+
+
+        <h2>Find all events by specific sender</h2>
+
+        <form action='check/' method="POST">
+            {% csrf_token %}                
+            <span>Name:</span><br/>
+            <input type="text" name="name"/><br/>  
+            <input type="submit" value="Check"/><br>
         </form>
-
-        <h2>Transactions list</h2>
-        <table>
-            <tr>
-                <th>Amount</th>
-                <th>Sender</th>
-                <th>Receiver</th>
-                <th>Message</th>
-            </tr>
-            {% for event in events %}
-            <tr>
-                <td>{{event.amount}}</td>
-                <td>{{event.sender}}</td>
-                <td>{{event.receiver}}</td>
-                <td>{{event.message|safe}}</td> 
-                <!--FIX - Replace line abow with this: <td>{{event.message}}</td> -->
-            </tr>
-            {% endfor %}
-        </table>
-        
-
-    </body>
-
 
     </body>
 </html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Bank Transfer</title>
+        <style>
+            table {
+              font-family: arial, sans-serif;
+              border-collapse: collapse;
+              width: 100%;
+            }
+            
+            td, th {
+              border: 1px solid #dddddd;
+              text-align: left;
+              padding: 8px;
+            }
+            
+            tr:nth-child(even) {
+              background-color: #dddddd;
+            }
+            </style>
+    </head>
+
+
+    <body>
+        <h2>Transactions list</h2>
+        <table>
+            <tr>
+                <th>Amount</th>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Message</th>
+            </tr>
+            {% for event in events %}
+            <tr>
+                <td>{{event.amount}}</td>
+                <td>{{event.sender}}</td>
+                <td>{{event.receiver}}</td>
+                <td>{{event.message|safe}}</td> 
+                <!--FIX 1 - Delete 'safe' keyword from line above. Correct line is:
+                     <td>{{event.message}}</td> 
+                    -->
+            </tr>
+            {% endfor %}
+        </table><br>
+
+        <a class="btn btn-primary" href="/">Back</a>
+
+    </body>
+</html>
